@@ -9,7 +9,7 @@ import Header from "../Header /Header";
 import "./style.css";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
-export const findValidatingAirlines = (data, filterTerms) => {
+const findValidatingAirlines = (data, filterTerms) => {
   let filterData = data;
   if (filterTerms.length) {
     const isMatchingFilterTerm = (termToMatch) => {
