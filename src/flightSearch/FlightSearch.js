@@ -8,6 +8,7 @@ import CheckBox from "../checkbox/Checkbox";
 import Header from "../Header /Header";
 import "./style.css";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
+import { useHistory } from "react-router-dom";
 
 const findValidatingAirlines = (data, filterTerms) => {
   let filterData = data;
@@ -73,6 +74,8 @@ const FlightSearch = (props) => {
     () => findValidatingAirlines(results.Data.PricedItineraries, filterTerms),
     [filterTerms]
   );
+
+  const history = useHistory();
   return (
     <div className="flight-container">
       <Header />
@@ -81,7 +84,7 @@ const FlightSearch = (props) => {
           <div className="heading-text">Filter by airlines</div>
           <div>
             {airlines.map((item) => (
-              <div className="item-wrapper">
+              <div className="item-wrapper" key={item.iata}>
                 <CheckBox
                   //   checked={searchTerm.includes(item.key)}
                   onChange={(isChecked) => {
@@ -98,7 +101,7 @@ const FlightSearch = (props) => {
                   }}
                   id={item.iata}
                 >
-                  {item.name} - {item.iata}
+                  {item.name.toString()}
                 </CheckBox>
               </div>
             ))}
@@ -111,16 +114,10 @@ const FlightSearch = (props) => {
             <div>duration</div>
             <div>arrival</div>
           </div>
-          {flightData.map((data) => (
-            <div className="flight-detail">
+          {flightData.map((data, index) => (
+            <div className="flight-detail" key={index}>
               <div>
-                <div
-                  onClick={() => {
-                    props.history.push({ pathname: "/success" });
-                  }}
-                >
-                  {airlinesIataNameMap[data.ValidatingAirlineCode]}
-                </div>
+                <div>{airlinesIataNameMap[data.ValidatingAirlineCode]}</div>
               </div>
               <div>
                 <div
@@ -142,11 +139,7 @@ const FlightSearch = (props) => {
                 </div>
               </div>
               <div>
-                <div
-                  onClick={() => {
-                    props.history.push({ pathname: "/success" });
-                  }}
-                >
+                <div>
                   <Duration
                     arrivalDate={
                       data.OriginDestinationOptions[0].FlightSegments[0]
@@ -165,11 +158,7 @@ const FlightSearch = (props) => {
                 </div>
               </div>
               <div>
-                <div
-                  onClick={() => {
-                    props.history.push({ pathname: "/success" });
-                  }}
-                >
+                <div>
                   <FlightTimeLocationDate
                     date={
                       data.OriginDestinationOptions[0].FlightSegments[0]
@@ -186,7 +175,7 @@ const FlightSearch = (props) => {
               <div>
                 <div
                   onClick={() => {
-                    props.history.push({ pathname: "/success" });
+                    history.push({ pathname: "/success" });
                   }}
                 >
                   <div>Book Flight</div>

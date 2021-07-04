@@ -7,12 +7,11 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/success">
+           <Success />
+        </Route>
         <Route path="/">
           <FlightSearch />
-        </Route>
-        <Route path="/success">
-          <FlightSearch />
-           <Success />
         </Route>
       </Switch>
     </Router>

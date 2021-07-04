@@ -1,8 +1,8 @@
 import React from "react";
+import Header from "../Header /Header";
 import "./styles.css";
-import Header from "../../common/Header";
-import successImg from "./success.png";
-import accept from "./approve.png";
+// import successImg from "./success.png";
+// import accept from "./approve.png";
 
 const Success = () => {
   return (
@@ -11,13 +11,13 @@ const Success = () => {
       <div className="success-wrapper">
         <div className="bold-text">congratulations!!</div>
         <div className="image-wrapper">
-          <img src={successImg} alt="success" />
+          {/* <img src={successImg} alt="success" /> */}
         </div>
         <div
           style={{ display: "flex", alignItems: "center", marginBottom: 20 }}
         >
           <div className="accept-img">
-            <img src={accept} alt="accept" />
+            {/* <img src={accept} alt="accept" /> */}
           </div>
           <div className="text-lg">booking confirmed</div>
         </div>
