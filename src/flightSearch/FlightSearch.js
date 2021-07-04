@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 // import "./styles.scss";
 import airlines from "../airlines.json";
 import results from "../result.json";
@@ -8,7 +8,8 @@ import CheckBox from "../checkbox/Checkbox";
 import Header from "../Header /Header";
 import "./style.css";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
-import { useHistory } from "react-router-dom";
+import format from "date-fns/format";
+import { appContext } from "../appContext/AppProvider";
 
 const findValidatingAirlines = (data, filterTerms) => {
   let filterData = data;
@@ -35,10 +36,8 @@ const findValidatingAirlines = (data, filterTerms) => {
 
 const FlightTimeLocationDate = ({ date, location }) => {
   const dateObj = new Date(date);
-  const formattedDate = `${dateObj.getDate()}/${
-    dateObj.getMonth() + 1
-  }/${dateObj.getFullYear()}`;
-  const formattedTime = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+  const formattedDate = format(dateObj, "dd/MM/yyyy");
+  const formattedTime = format(dateObj, "HH:mm");
   return (
     <>
       <div>{formattedTime}</div>
@@ -75,7 +74,8 @@ const FlightSearch = (props) => {
     [filterTerms]
   );
 
-  const history = useHistory();
+  const { onFlightSelect } = useContext(appContext);
+
   return (
     <div className="flight-container">
       <Header />
@@ -120,11 +120,7 @@ const FlightSearch = (props) => {
                 <div>{airlinesIataNameMap[data.ValidatingAirlineCode]}</div>
               </div>
               <div>
-                <div
-                  onClick={() => {
-                    props.history.push({ pathname: "/success" });
-                  }}
-                >
+                <div>
                   <FlightTimeLocationDate
                     date={
                       data.OriginDestinationOptions[0].FlightSegments[0]
@@ -175,7 +171,18 @@ const FlightSearch = (props) => {
               <div>
                 <div
                   onClick={() => {
-                    history.push({ pathname: "/success" });
+                    onFlightSelect({
+                      date: format(
+                        new Date(
+                          data.OriginDestinationOptions[0].FlightSegments[0].DepartureDateTime
+                        ),
+                        "dd MMMM yyyy"
+                      ),
+                      from: data.OriginDestinationOptions[0].FlightSegments[0]
+                        .DepartureAirportLocationCode,
+                      to: data.OriginDestinationOptions[0].FlightSegments[0]
+                        .ArrivalAirportLocationCode,
+                    });
                   }}
                 >
                   <div>Book Flight</div>
