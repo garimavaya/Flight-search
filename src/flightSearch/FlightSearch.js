@@ -170,6 +170,25 @@ const FlightSearch = (props) => {
                     props.history.push({ pathname: "/success" });
                   }}
                 >
+                  <FlightTimeLocationDate
+                    date={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .ArrivalDateTime
+                    }
+                    location={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .ArrivalAirportLocationCode
+                    }
+                  />
+                  {}
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={() => {
+                    props.history.push({ pathname: "/success" });
+                  }}
+                >
                   <div>Book Flight</div>
                   {`${data.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode} ${data.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount}`}
                 </div>
