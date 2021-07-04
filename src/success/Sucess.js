@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
 import Header from "../../common/Header";
-import successImg from "../../../assets/images/success.png";
-import accept from "../../../assets/images/approve.png";
+import successImg from "./success.png";
+import accept from "./approve.png";
 
 const Success = () => {
   return (
@@ -25,8 +25,7 @@ const Success = () => {
           Your flight from <span>DEL - LHR</span> on <span>10 April 2021</span>
           is confirmed
         </div>
-        <div className="custom-btn">
-        </div>
+        <div className="custom-btn"></div>
       </div>
     </div>
   );
