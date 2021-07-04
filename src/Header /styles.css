@@ -1,0 +1,28 @@
+.flight-header {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    background-color: #e8f3f9;
+    width: 100%;
+    z-index: 1;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px;
+}
+.flight-header-left {
+    font-size: 20px;
+    color: #000;
+    font-weight: 500;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+.flight-header-right {
+    font-size: 16px;
+    color: black;
+    font-weight: 400;
+    text-transform: capitalize;
+    cursor: pointer;
+}
