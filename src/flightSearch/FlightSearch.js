@@ -7,6 +7,7 @@ import results from "../result.json";
 import CheckBox from "../checkbox/Checkbox";
 import Header from "../Header /Header";
 import "./style.css";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
 export const findValidatingAirlines = (data, filterTerms) => {
   let filterData = data;
@@ -29,6 +30,32 @@ export const findValidatingAirlines = (data, filterTerms) => {
     filterData = data.filter(filterElement);
   }
   return filterData;
+};
+
+const FlightTimeLocationDate = ({ date, location }) => {
+  const dateObj = new Date(date);
+  const formattedDate = `${dateObj.getDate()}/${
+    dateObj.getMonth() + 1
+  }/${dateObj.getFullYear()}`;
+  const formattedTime = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+  return (
+    <>
+      <div>{formattedTime}</div>
+      <div>{location}</div>
+      <div>{formattedDate}</div>
+    </>
+  );
+};
+
+const Duration = ({ departureDate, arrivalDate, stops }) => {
+  const departureDateObj = new Date(arrivalDate);
+  const arrivalDateObj = new Date(departureDate);
+  return (
+    <>
+      <div>{formatDistanceStrict(arrivalDateObj, departureDateObj, {})}</div>
+      <div>{stops} Stops</div>
+    </>
+  );
 };
 
 const FlightSearch = (props) => {
@@ -92,15 +119,6 @@ const FlightSearch = (props) => {
                     props.history.push({ pathname: "/success" });
                   }}
                 >
-                  {data.ValidatingAirlineCode}
-                </div>
-              </div>
-              <div>
-                <div
-                  onClick={() => {
-                    props.history.push({ pathname: "/success" });
-                  }}
-                >
                   {airlinesIataNameMap[data.ValidatingAirlineCode]}
                 </div>
               </div>
@@ -110,10 +128,17 @@ const FlightSearch = (props) => {
                     props.history.push({ pathname: "/success" });
                   }}
                 >
-                  {
-                    data.OriginDestinationOptions[0].FlightSegments[0]
-                      .DepartureDateTime
-                  }
+                  <FlightTimeLocationDate
+                    date={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .DepartureDateTime
+                    }
+                    location={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .DepartureAirportLocationCode
+                    }
+                  />
+                  {}
                 </div>
               </div>
               <div>
@@ -122,10 +147,31 @@ const FlightSearch = (props) => {
                     props.history.push({ pathname: "/success" });
                   }}
                 >
-                  {
-                    data.OriginDestinationOptions[0].FlightSegments[0]
-                      .ArrivalDateTime
-                  }
+                  <Duration
+                    arrivalDate={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .ArrivalDateTime
+                    }
+                    departureDate={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .DepartureDateTime
+                    }
+                    stops={
+                      data.OriginDestinationOptions[0].FlightSegments[0]
+                        .StopQuantity
+                    }
+                  />
+                  {}
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={() => {
+                    props.history.push({ pathname: "/success" });
+                  }}
+                >
+                  <div>Book Flight</div>
+                  {`${data.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode} ${data.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount}`}
                 </div>
               </div>
             </div>
